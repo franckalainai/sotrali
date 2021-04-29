@@ -133,6 +133,23 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
+                                    <div class="form-group">
+                                        <select class="form-control"  name="dispo" id="dispo">
+                                            <option>Indisponibilité</option>
+                                                <option value="Lundi">Lundi</option>
+                                                <option value="Mardi">Mardi</option>
+                                                <option value="Mercredi">Mercredi</option>
+                                                <option value="Jeudi">Jeudi</option>
+                                                <option value="Vendredi">Vendredi</option>
+                                                <option value="Samedi">Samedi</option>
+                                                <option value="Dimanche">Dimanche</option>
+                                            </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-4">
                                     <button id="submitUser" type="button" class="btn btn-raised btn-primary btn-round waves-effect">Enregistrer</button>
 
                                 </div>
@@ -166,7 +183,7 @@
                                     <th>Latitude</th>
                                     <th>Premier départ</th>
                                     <th>Dernier départ</th>
-                                    <th>Indisponibilité</th>
+                                    <th>Pas Dispo</th>
                                     <th width="180" class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -256,6 +273,7 @@ firebase.database().ref('sotrali/').on('value', function(snapshot) {
                 <td>' + value.latitude + '</td>\
                 <td>' + value.pdepart + '</td>\
                 <td>' + value.ddepart + '</td>\
+                <td>' + value.dispo + '</td>\
         		<td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="' + index + '">Editer</button>\
         		<button data-toggle="modal" data-target="#remove-modal" class="btn btn-danger removeData" data-id="' + index + '">Delete</button></td>\
         	</tr>');
@@ -281,6 +299,7 @@ $('#submitUser').on('click', function(){
         var latitude = values[5].value;
         var pdepart = values[6].value;
         var ddepart = values[7].value;
+        var dispo = values[8].value;
 	var userID = lastIndex+1;
 
     firebase.database().ref('sotrali/' + userID).set({
@@ -292,6 +311,7 @@ $('#submitUser').on('click', function(){
             latitude: latitude,
             pdepart :pdepart,
             ddepart : ddepart,
+            dispo : dispo,
     });
 
     // Reassign lastID value
@@ -352,6 +372,12 @@ $('body').on('click', '.updateData', function() {
 		        <div class="col-md-12">\
 		            <input id="ddepart" type="text" class="form-control" name="ddepart" value="' + values.ddepart + '" required autofocus>\
 		        </div>\
+		    </div>\
+            <div class="form-group">\
+		        <label for="dispo" class="col-md-12 col-form-label">Indisponibilité</label>\
+		        <div class="col-md-12">\
+		            <input id="dispo" type="text" class="form-control" name="dispo" value="' + values.dispo + '" required autofocus>\
+		        </div>\
 		    </div>';
 
 		    $('#updateBody').html(updateData);
@@ -370,6 +396,7 @@ $('.updateUserRecord').on('click', function() {
             latitude: values[5].value,
             pdepart : values[6].value,
             ddepart : values[7].value,
+            dispo : values[8].value,
 	};
 
 	var updates = {};
